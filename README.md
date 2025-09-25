@@ -60,8 +60,8 @@
 ---
 
 ## 2. Link Pull Request (Programmer)
-- [PR #7 – Menambahkan nama kelompok 3 di index.html](../../pull/7)  
-- [PR #8 – Menambahkan tombol About Us](../../pull/8)  
+- [PR #7 – Menambahkan nama kelompok 3 di index.html](https://github.com/aprilianza/CAK3BAB3-IMPLEMENTASI_DAN_PENGUJIAN_PERANGKAT_LUNAK-IF-47-08-Kelompok4/pull/11)  
+- [PR #8 – Menambahkan tombol About Us](https://github.com/aprilianza/CAK3BAB3-IMPLEMENTASI_DAN_PENGUJIAN_PERANGKAT_LUNAK-IF-47-08-Kelompok4/pull/9)
 
 ---
 
