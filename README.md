@@ -67,12 +67,12 @@
 
 ## 3. Screenshot Merge (Configuration Manager)
 **PR #7 – Merge Menambahkan nama kelompok 3**  
-![Screenshot Merge PR #7](docs/screenshots/merge-pr7.png)  
+<img width="1197" height="846" alt="image" src="https://github.com/user-attachments/assets/ec3e6d45-3b95-48fd-abc5-1bf975b8e447" />
+
 
 **PR #8 – Merge Menambahkan tombol About Us**  
-![Screenshot Merge PR #8](docs/screenshots/merge-pr8.png)  
+<img width="1212" height="725" alt="image" src="https://github.com/user-attachments/assets/c4248b2e-bbe1-45eb-ba70-2569db1295a2" />
 
----
 
 ## 4. Laporan Audit (Auditor)
 **Audit Report – Kelompok X**  
