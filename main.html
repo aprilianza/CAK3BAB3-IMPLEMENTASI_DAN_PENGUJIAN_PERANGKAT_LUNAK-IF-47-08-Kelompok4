@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Hall of Fame Mahasiswa</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Arial, sans-serif;
+			background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
+			margin: 0;
+			padding: 0;
+		}
+		.container {
+			max-width: 900px;
+			margin: 40px auto;
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+			padding: 32px 24px;
+		}
+		h1 {
+			text-align: center;
+			color: #3b82f6;
+			margin-bottom: 24px;
+			letter-spacing: 2px;
+		}
+		.filter-bar {
+			text-align: center;
+			margin-bottom: 32px;
+		}
+		.filter-bar select {
+			padding: 8px 16px;
+			border-radius: 8px;
+			border: 1px solid #cbd5e1;
+			font-size: 1rem;
+		}
+		.cards {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 24px;
+			justify-content: center;
+		}
+		.card {
+			background: #f1f5f9;
+			border-radius: 12px;
+			box-shadow: 0 2px 8px rgba(59,130,246,0.08);
+			width: 260px;
+			padding: 20px 16px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			transition: transform 0.2s;
+		}
+		.card:hover {
+			transform: translateY(-6px) scale(1.03);
+			box-shadow: 0 6px 24px rgba(59,130,246,0.15);
+		}
+		.avatar {
+			width: 80px;
+			height: 80px;
+			border-radius: 50%;
+			object-fit: cover;
+			margin-bottom: 12px;
+			border: 3px solid #3b82f6;
+		}
+		.role {
+			font-size: 0.95rem;
+			color: #6366f1;
+			font-weight: 600;
+			margin-bottom: 6px;
+		}
+		.name {
+			font-size: 1.15rem;
+			font-weight: bold;
+			color: #334155;
+			margin-bottom: 4px;
+		}
+		.hobby {
+			font-size: 0.98rem;
+			color: #64748b;
+			margin-bottom: 10px;
+		}
+		.github-link {
+			display: inline-block;
+			background: #3b82f6;
+			color: #fff;
+			padding: 6px 14px;
+			border-radius: 6px;
+			text-decoration: none;
+			font-size: 0.95rem;
+			transition: background 0.2s;
+		}
+		.github-link:hover {
+			background: #2563eb;
+		}
+		@media (max-width: 600px) {
+			.container {
+				padding: 12px 4px;
+			}
+			.cards {
+				gap: 16px;
+			}
+			.card {
+				width: 98vw;
+				max-width: 340px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Hall of Fame Mahasiswa</h1>
+		<div class="filter-bar">
+			<label for="roleFilter">Filter berdasarkan peran: </label>
+			<select id="roleFilter" onchange="filterCards()">
+				<option value="all">Semua</option>
+				<option value="Programmer">Programmer</option>
+				<option value="Customer">Customer</option>
+				<option value="Configuration Manager">Configuration Manager</option>
+				<option value="Auditor">Auditor</option>
+			</select>
+		</div>
+		<div class="cards" id="cards">
+			<!-- Cards will be rendered here -->
+		</div>
+	</div>
+	<script>
+		const data = [
+			{
+				role: 'Programmer',
+				name: 'aprilianza muhammad yusup',
+				hobby: 'Mancing',
+				github: 'https://github.com/aprilianza',
+				avatar: 'https://github.com/aprilianza.png'
+			},
+			{
+				role: 'Customer',
+				name: 'nasywa kamila',
+				hobby: 'Tidur',
+				github: 'https://github.com/NasywaKml',
+				avatar: 'https://github.com/NasywaKml.png'
+			},
+			{
+				role: 'Customer',
+				name: 'Arsyad Maulana',
+				hobby: 'Lari',
+				github: 'https://github.com/Amaburi',
+				avatar: 'https://github.com/Amaburi.png'
+			},
+			{
+				role: 'Configuration Manager',
+				name: 'ananda marchel',
+				hobby: 'senam skj',
+				github: 'https://github.com/anandamarachel',
+				avatar: 'https://github.com/anandamarachel.png'
+			},
+			{
+				role: 'Auditor',
+				name: 'ahmad refi',
+				hobby: 'service motor',
+				github: 'https://github.com/mamad6969-hs',
+				avatar: 'https://github.com/mamad6969-hs.png'
+			}
+		];
+
+		function renderCards(role = 'all') {
+			const cardsContainer = document.getElementById('cards');
+			cardsContainer.innerHTML = '';
+			let filtered = role === 'all' ? data : data.filter(d => d.role === role);
+			filtered.forEach(person => {
+				const card = document.createElement('div');
+				card.className = 'card';
+				card.innerHTML = `
+					<img class="avatar" src="${person.avatar}" alt="${person.name}">
+					<div class="role">${person.role}</div>
+					<div class="name">${person.name}</div>
+					<div class="hobby">Hobi: ${person.hobby}</div>
+					<a class="github-link" href="${person.github}" target="_blank">GitHub</a>
+				`;
+				cardsContainer.appendChild(card);
+			});
+		}
+
+		function filterCards() {
+			const role = document.getElementById('roleFilter').value;
+			renderCards(role);
+		}
+
+		// Initial render
+		renderCards();
+	</script>
+</body>
+</html>
