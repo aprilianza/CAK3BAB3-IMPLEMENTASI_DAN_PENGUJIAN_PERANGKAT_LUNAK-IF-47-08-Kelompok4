@@ -5,112 +5,393 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hall of Fame Mahasiswa</title>
     <style>
-      body {
-        font-family: 'Segoe UI', Arial, sans-serif;
-        background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
+      * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
       }
-      .container {
-        max-width: 900px;
-        margin: 40px auto;
-        background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-        padding: 32px 24px;
+      
+      body {
+        font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+        background: #0f0f23;
+        color: #ffffff;
+        line-height: 1.6;
+        overflow-x: hidden;
       }
-      h1 {
+
+      /* Animated background */
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+        animation: floatingBackground 20s ease-in-out infinite;
+        z-index: -1;
+      }
+
+      @keyframes floatingBackground {
+        0%, 100% { opacity: 1; transform: translateY(0px); }
+        50% { opacity: 0.8; transform: translateY(-20px); }
+      }
+
+      .hero-section {
         text-align: center;
-        color: #3b82f6;
-        margin-bottom: 24px;
-        letter-spacing: 2px;
+        padding: 80px 20px 60px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
       }
+
+      .hero-section::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #6366f1, transparent);
+      }
+
+      .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradientShift 3s ease-in-out infinite;
+        letter-spacing: -2px;
+      }
+
+      @keyframes gradientShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+
+      .hero-logo {
+        width: 140px;
+        height: 140px;
+        margin: 30px auto;
+        border-radius: 50%;
+        box-shadow: 
+          0 0 60px rgba(99, 102, 241, 0.4),
+          0 0 100px rgba(139, 92, 246, 0.2);
+        display: block;
+        transition: all 0.3s ease;
+        animation: logoFloat 3s ease-in-out infinite;
+      }
+
+      @keyframes logoFloat {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+
+      .hero-logo:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 
+          0 0 80px rgba(99, 102, 241, 0.6),
+          0 0 120px rgba(139, 92, 246, 0.3);
+      }
+
+      .hero-subtitle {
+        font-size: 1.8rem;
+        margin-top: 20px;
+        opacity: 0.9;
+        font-weight: 300;
+        color: #e2e8f0;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 60px auto;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 40px 32px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
       .filter-bar {
         text-align: center;
-        margin-bottom: 32px;
+        margin-bottom: 40px;
       }
+
+      .filter-bar label {
+        color: #e2e8f0;
+        font-weight: 500;
+        margin-right: 12px;
+      }
+
       .filter-bar select {
-        padding: 8px 16px;
-        border-radius: 8px;
-        border: 1px solid #cbd5e1;
+        padding: 12px 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        color: #ffffff;
         font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
       }
+
+      .filter-bar select:hover {
+        border-color: #6366f1;
+        background: rgba(99, 102, 241, 0.1);
+      }
+
+      .filter-bar select option {
+        background: #1e1e2e;
+        color: #ffffff;
+      }
+
       .cards {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 24px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
         justify-content: center;
       }
+
       .card {
-        background: #f1f5f9;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
-        width: 260px;
-        padding: 20px 16px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 30px 24px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        transition: transform 0.2s;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
       }
+
+      .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s;
+      }
+
+      .card:hover::before {
+        left: 100%;
+      }
+
       .card:hover {
-        transform: translateY(-6px) scale(1.03);
-        box-shadow: 0 6px 24px rgba(59, 130, 246, 0.15);
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 
+          0 20px 40px rgba(99, 102, 241, 0.2),
+          0 0 60px rgba(139, 92, 246, 0.1);
+        border-color: rgba(99, 102, 241, 0.3);
       }
+
       .avatar {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
         object-fit: cover;
-        margin-bottom: 12px;
-        border: 3px solid #3b82f6;
+        margin-bottom: 20px;
+        border: 3px solid transparent;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6) padding-box,
+                    linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899) border-box;
+        transition: all 0.3s ease;
       }
+
+      .card:hover .avatar {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+      }
+
       .role {
-        font-size: 0.95rem;
-        color: #6366f1;
-        font-weight: 600;
-        margin-bottom: 6px;
+        font-size: 0.9rem;
+        color: #8b5cf6;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        background: rgba(139, 92, 246, 0.2);
+        padding: 4px 12px;
+        border-radius: 20px;
       }
+
       .name {
-        font-size: 1.15rem;
-        font-weight: bold;
-        color: #334155;
-        margin-bottom: 4px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 8px;
+        text-align: center;
+        text-transform: capitalize;
       }
+
       .hobby {
-        font-size: 0.98rem;
-        color: #64748b;
-        margin-bottom: 10px;
+        font-size: 1rem;
+        color: #cbd5e1;
+        margin-bottom: 20px;
+        text-align: center;
+        font-style: italic;
       }
+
       .github-link {
-        display: inline-block;
-        background: #3b82f6;
-        color: #fff;
-        padding: 6px 14px;
-        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: #ffffff;
+        padding: 12px 24px;
+        border-radius: 25px;
         text-decoration: none;
         font-size: 0.95rem;
-        transition: background 0.2s;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
       }
+
       .github-link:hover {
-        background: #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+        background: linear-gradient(135deg, #5b5bf6, #7c3aed);
       }
-      @media (max-width: 600px) {
+
+      /* Quotes Section */
+      .quotes-section {
+        margin: 80px auto 40px;
+        max-width: 900px;
+        padding: 60px 40px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 24px;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .quotes-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+        animation: rotate 20s linear infinite;
+        z-index: -1;
+      }
+
+      @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      .quote-icon {
+        font-size: 4rem;
+        color: #6366f1;
+        margin-bottom: 30px;
+        opacity: 0.7;
+      }
+
+      .quote-text {
+        font-size: 1.8rem;
+        font-weight: 300;
+        line-height: 1.4;
+        color: #e2e8f0;
+        margin-bottom: 30px;
+        font-style: italic;
+        position: relative;
+      }
+
+      .quote-author {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #8b5cf6;
+        position: relative;
+      }
+
+      .quote-author::before {
+        content: '—';
+        margin-right: 10px;
+        color: #6366f1;
+      }
+
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        
+        .hero-logo {
+          width: 100px;
+          height: 100px;
+        }
+        
+        .hero-subtitle {
+          font-size: 1.4rem;
+        }
+        
         .container {
-          padding: 12px 4px;
+          margin: 40px 20px;
+          padding: 30px 20px;
         }
+        
         .cards {
-          gap: 16px;
+          grid-template-columns: 1fr;
+          gap: 20px;
         }
-        .card {
-          width: 98vw;
-          max-width: 340px;
+        
+        .quotes-section {
+          margin: 60px 20px 40px;
+          padding: 40px 20px;
         }
+        
+        .quote-text {
+          font-size: 1.4rem;
+        }
+        
+        .quote-author {
+          font-size: 1rem;
+        }
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #5b5bf6, #7c3aed);
       }
     </style>
   </head>
   <body>
+    <div class="hero-section">
+      <h1 class="hero-title">KELOMPOK 4</h1>
+      <img class="hero-logo" src="purple_.png" alt="Logo Kelompok 4" />
+      <p class="hero-subtitle">Hall of Fame Mahasiswa</p>
+    </div>
+    
     <div class="container">
-      <h1>Hall of Fame Mahasiswa</h1>
       <div class="filter-bar">
         <label for="roleFilter">Filter berdasarkan peran: </label>
         <select id="roleFilter" onchange="filterCards()">
@@ -125,6 +406,15 @@
         <!-- Cards will be rendered here -->
       </div>
     </div>
+
+    <div class="quotes-section">
+      <div class="quote-icon">"</div>
+      <div class="quote-text">
+        Great things in business are never done by one person. They're done by a team of people.
+      </div>
+      <div class="quote-author">Steve Jobs</div>
+    </div>
+
     <script>
       const data = [
         {
@@ -168,16 +458,22 @@
         const cardsContainer = document.getElementById('cards');
         cardsContainer.innerHTML = '';
         let filtered = role === 'all' ? data : data.filter((d) => d.role === role);
-        filtered.forEach((person) => {
+        filtered.forEach((person, index) => {
           const card = document.createElement('div');
           card.className = 'card';
+          card.style.animationDelay = `${index * 0.1}s`;
           card.innerHTML = `
-					<img class="avatar" src="${person.avatar}" alt="${person.name}">
-					<div class="role">${person.role}</div>
-					<div class="name">${person.name}</div>
-					<div class="hobby">Hobi: ${person.hobby}</div>
-					<a class="github-link" href="${person.github}" target="_blank">GitHub</a>
-				`;
+            <img class="avatar" src="${person.avatar}" alt="${person.name}">
+            <div class="role">${person.role}</div>
+            <div class="name">${person.name}</div>
+            <div class="hobby">Hobi: ${person.hobby}</div>
+            <a class="github-link" href="${person.github}" target="_blank">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              GitHub
+            </a>
+          `;
           cardsContainer.appendChild(card);
         });
       }
@@ -187,8 +483,32 @@
         renderCards(role);
       }
 
-      // Initial render
-      renderCards();
+      // Initial render with animation
+      document.addEventListener('DOMContentLoaded', () => {
+        renderCards();
+        
+        // Add scroll animations
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+            }
+          });
+        }, observerOptions);
+
+        // Observe quote section
+        const quoteSection = document.querySelector('.quotes-section');
+        quoteSection.style.opacity = '0';
+        quoteSection.style.transform = 'translateY(50px)';
+        quoteSection.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        observer.observe(quoteSection);
+      });
     </script>
   </body>
 </html>
