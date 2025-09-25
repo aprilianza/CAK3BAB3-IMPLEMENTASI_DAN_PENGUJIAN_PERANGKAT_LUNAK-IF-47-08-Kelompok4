@@ -44,16 +44,39 @@ Tambahkan badge ini ke README.md:
 
 ### 📝 Troubleshooting
 
-**Jika deployment gagal:**
-1. Cek **Actions** tab di GitHub
-2. Pastikan **GitHub Pages** sudah di-enable
-3. Pastikan file `purple_.png` ada di repository
-4. Cek log error di workflow
+**Jika deployment gagal dengan "Not Found" atau "Get Pages site failed":**
+
+1. **Manual Setup GitHub Pages**:
+   - Pergi ke **Settings** → **Pages**
+   - **Source**: Pilih **"GitHub Actions"** (bukan Deploy from branch)
+   - Klik **Save**
+
+2. **Cek Repository Permissions**:
+   - **Settings** → **Actions** → **General**
+   - **Workflow permissions**: Pilih **"Read and write permissions"**
+   - Centang **"Allow GitHub Actions to create and approve pull requests"**
+
+3. **Alternatif Workflow**:
+   - Gunakan file `deploy-alternative.yml` yang lebih robust
+   - Atau disable `deploy.yml` dan gunakan yang alternatif
+
+4. **Manual Troubleshooting**:
+   ```bash
+   # Cek apakah Pages sudah enabled via GitHub CLI
+   gh api repos/:owner/:repo/pages
+   ```
+
+**Jika masih error "HttpError: Not Found":**
+1. Pastikan repository **public** atau upgrade ke GitHub Pro
+2. Tunggu 24 jam setelah enable GitHub Pages pertama kali
+3. Coba **disable** dan **enable** kembali GitHub Pages
+4. Gunakan workflow alternative: `deploy-alternative.yml`
 
 **Jika website tidak muncul:**
 1. Tunggu 5-10 menit setelah deployment
 2. Cek URL GitHub Pages di **Settings** → **Pages**
 3. Pastikan branch yang benar dipilih
+4. Clear browser cache atau coba incognito mode
 
 ---
 **Created by Kelompok 4 - Implementasi dan Pengujian Perangkat Lunak**
