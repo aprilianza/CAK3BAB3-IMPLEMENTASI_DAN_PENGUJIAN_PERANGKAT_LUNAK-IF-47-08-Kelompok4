@@ -1,92 +1,48 @@
 # Laporan Audit — Hall of Fame Mahasiswa (main.html)
 
-**File yang diaudit:** `main.html`  
-**Tanggal audit:** 2025-09-25  
-**Auditor:** Ahmad Refi  
-**Scope:** pemeriksaan front-end (HTML / CSS / JS), security (klien), aksesibilitas, maintainability, dan rekomendasi proses kolaborasi.
+**File yang diaudit:** `main.html`
+
+**Tanggal audit:** 2025-09-25
+
+**Auditor:** Ahmad Refi
+
+**Scope:** pemeriksaan front-end (HTML / CSS / JS), security (klien), aksesibilitas, maintainability, serta pemetaan ke issue repository.
 
 ---
 
 ## 1 — Ringkasan singkat
-`main.html` adalah halaman statis yang memiliki desain modern, animasi halus, dan layout responsif. Banyak praktik baik (label form, penggunaan `alt` pada gambar, responsive grid). Namun ditemukan beberapa perbaikan penting untuk keamanan klien, aksesibilitas, dan maintainability.
 
-**Prioritas perbaikan:**
-1. Tambah `rel="noopener noreferrer"` pada semua link yang memakai `target="_blank"`. *(Medium)*  
-2. Hindari `innerHTML` untuk data yang bisa berasal dari sumber eksternal — gunakan `textContent` atau DOM-safe builder. *(Low–Medium)*  
-3. Tambah fallback untuk avatar (gambar default) jika URL avatar bermasalah. *(Low)*  
-4. Perbaiki semantik HTML (pakai `<main>`, `<section>`, `<article>`), dan tambahkan style :focus untuk keyboard users. *(Low)*
+`main.html` sudah memiliki desain modern dengan struktur grid, animasi sederhana, dan layout responsif. Namun masih ada beberapa hal yang perlu diperbaiki terutama dari sisi **keamanan link eksternal**, **aksesibilitas**, serta **maintainability** (struktur kode dan fallback aset).
 
 ---
 
-## 2 — Tabel Hasil Audit (tampilan seperti diminta)
-> Catatan: Issue/PR/Status = `N/A` karena tidak tersedia dari file statis. Untuk data real, sertakan `git log` / akses repo / daftar PR & Issue.
+## 2 — Tabel Hasil Audit (disesuaikan dengan Issue di repo)
 
-| No | Issue ID | PR ID | Programmer | Configuration Manager | Status | Catatan |
-|---:|:--------:|:-----:|:-----------|:---------------------:|:------:|:--------|
-| 1 | N/A | N/A | aprilianza muhammad yusup | ananda marchel | N/A | Nama muncul di `main.html`. Audit teknis dilakukan pada file. |
-| 2 | N/A | N/A | — | — | N/A | Untuk isi tabel Issue/PR: sediakan daftar Issue/PR atau akses repo. |
+| No | Issue | Programmer | Configuration Manager | Status | Catatan |
+| --- | --- | --- | --- | --- | --- |
+| 1 | **#8 Style and feature** | Aprilianza Muhammad Yusup, Muhammad Ihsan Naufal | Ananda Marchel | Open | Style sudah modern, tapi perlu ditambahkan `:focus` untuk aksesibilitas & minifikasi CSS. |
+| 2 | **#5 Card Anggota Kelompok** | Aprilianza Muhammad Yusup | Ananda Marchel | Open | Sudah sesuai, tapi `innerHTML` sebaiknya diganti `textContent`/DOM builder agar lebih aman. Tambahkan fallback avatar. |
+| 3 | **#4 Footer – About Us** | Muhammad Ihsan Naufal | Ananda Marchel | Open | Link eksternal di footer perlu `rel="noopener noreferrer"` bila menggunakan `target="_blank"`. |
+| 4 | **#3 Quotes Section** | Aprilianza Muhammad Yusup | Ananda Marchel | Open | Struktur HTML sebaiknya menggunakan `<section>` semantik. Tambahkan kontras warna sesuai WCAG. |
+| 5 | **#1 Hero Section Landing Page Kelompok** | Muhammad Ihsan Naufal | Ananda Marchel | Open | Hero section sudah menarik, tapi sebaiknya pakai landmark `<main>` agar lebih semantik. |
 
 ---
 
 ## 3 — Temuan detail & rekomendasi
 
-### Keamanan (Medium)
-- **target="_blank" tanpa rel** → Tambahkan `rel="noopener noreferrer"` ke link GitHub.
-- **innerHTML** digunakan untuk memasukkan teks dari `data` → ganti dengan pembuatan elemen dan `textContent` jika data bisa berasal dari luar.
+### Keamanan
 
-### Aksesibilitas (Low–Medium)
-- Gunakan landmark semantik: ubah wrapper utama jadi `<main>`; tiap kartu bisa jadi `<article>`.
-- Tambahkan visible `:focus` style (mis. outline atau box-shadow) agar pengguna keyboard tahu fokus saat navigasi.
-- Periksa kontras warna untuk teks sekunder (WCAG AA).
+- **Rel="noopener noreferrer"** harus ditambahkan di semua link dengan `target="_blank"`.
+- Hindari penggunaan `innerHTML` untuk data dinamis. Ganti dengan `textContent` atau builder DOM.
 
-### Maintainability & Perf (Low)
-- Pisahkan CSS & JS ke `styles.css` dan `app.js` untuk kemudahan pengelolaan.
-- Tambahkan fallback avatar (`onerror` handler) agar gambar rusak tidak tampil broken.
-- Pertimbangkan minifikasi saat deploy.
+### Aksesibilitas
 
----
+- Tambahkan landmark semantik `<main>`, `<section>`, `<article>`.
+- Berikan style `:focus` agar navigasi keyboard terlihat.
+- Periksa kontras warna terutama di teks sekunder (Quotes, Footer).
 
-## 4 — Patch kode (perbaikan cepat, contoh)
-Ganti fungsi `renderCards()` (yang menggunakan `innerHTML`) dengan metode DOM-safe seperti contoh berikut (potong untuk README; masukkan ke `app.js`):
+### Maintainability
 
-```js
-function renderCards(role = 'all') {
-  const cardsContainer = document.getElementById('cards');
-  cardsContainer.innerHTML = '';
-  const filtered = role === 'all' ? data : data.filter(d => d.role === role);
-
-  filtered.forEach((person, i) => {
-    const card = document.createElement('article');
-    card.className = 'card';
-    card.style.animationDelay = `${i * 0.1}s`;
-
-    const img = document.createElement('img');
-    img.className = 'avatar';
-    img.src = person.avatar;
-    img.alt = person.name;
-    img.onerror = () => { img.src = 'assets/default-avatar.png'; };
-
-    const roleDiv = document.createElement('div');
-    roleDiv.className = 'role';
-    roleDiv.textContent = person.role;
-
-    const nameDiv = document.createElement('div');
-    nameDiv.className = 'name';
-    nameDiv.textContent = person.name;
-
-    const hobbyDiv = document.createElement('div');
-    hobbyDiv.className = 'hobby';
-    hobbyDiv.textContent = `Hobi: ${person.hobby}`;
-
-    const link = document.createElement('a');
-    link.className = 'github-link';
-    link.href = person.github;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.setAttribute('aria-label', `GitHub ${person.name}`);
-    link.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37..." /></svg> GitHub`;
-
-    card.append(img, roleDiv, nameDiv, hobbyDiv, link);
-    cardsContainer.appendChild(card);
-  });
-}
+- Pisahkan CSS/JS ke file terdedikasi (`styles.css`, `app.js`).
+- Tambahkan fallback avatar (gambar default jika URL error).
+- Minifikasi CSS/JS saat deployment.
