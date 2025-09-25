@@ -39,6 +39,43 @@
         0%, 100% { opacity: 1; transform: translateY(0px); }
         50% { opacity: 0.8; transform: translateY(-20px); }
       }
+            .footer {
+        background: #0a0a1a;
+        color: #e2e8f0;
+        text-align: center;
+        padding: 40px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 60px;
+      }
+
+      .footer h2 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: #8b5cf6;
+      }
+
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .footer-links li a {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links li a:hover {
+        color: #6366f1;
+        text-decoration: underline;
+      }
 
       .hero-section {
         text-align: center;
@@ -415,6 +452,18 @@
       <div class="quote-author">Steve Jobs</div>
     </div>
 
+    <footer class="footer">
+      <h2>About Us</h2>
+      <ul class="footer-links">
+        <li><a href="https://github.com/aprilianza" target="_blank">Aprilianza Muhammad Yusup</a></li>
+        <li><a href="https://github.com/isanaufal" target="_blank">Muhammad Ihsan Naufal</a></li>
+        <li><a href="https://github.com/NasywaKml" target="_blank">Nasywa Kamila</a></li>
+        <li><a href="https://github.com/Amaburi" target="_blank">Arsyad Maulana</a></li>
+        <li><a href="https://github.com/anandamarachel" target="_blank">Ananda Marchel</a></li>
+        <li><a href="https://github.com/mamad6969-hs" target="_blank">Ahmad Refi</a></li>
+      </ul>
+    </footer>
+
     <script>
       const data = [
         {
@@ -423,13 +472,6 @@
           hobby: 'Mancing',
           github: 'https://github.com/aprilianza',
           avatar: 'https://github.com/aprilianza.png',
-        },
-        {
-          role: 'Programmer',
-          name: 'Muhammad Ihsan Naufal',
-          hobby: 'Kolektor Reptil',
-          github: 'https://github.com/isanaufal',
-          avatar: 'https://github.com/isanaufal.png',
         },
         {
           role: 'Customer',
