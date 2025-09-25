@@ -1,0 +1,135 @@
+name: Deploy Hall of Fame Website
+
+# Trigger workflow pada push ke branch main atau programmer
+on:
+  push:
+    branches: [ main, programmer ]
+  pull_request:
+    branches: [ main ]
+
+# Permissions untuk GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Hanya satu deployment yang berjalan bersamaan
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Build Site
+        run: |
+          # Buat direktori build
+          mkdir -p _site
+          
+          # Copy semua file HTML, CSS, JS, dan aset ke _site
+          cp *.html _site/ 2>/dev/null || echo "No HTML files found"
+          cp *.css _site/ 2>/dev/null || echo "No CSS files found"  
+          cp *.js _site/ 2>/dev/null || echo "No JS files found"
+          cp *.png _site/ 2>/dev/null || echo "No PNG files found"
+          cp *.jpg _site/ 2>/dev/null || echo "No JPG files found"
+          cp *.jpeg _site/ 2>/dev/null || echo "No JPEG files found"
+          cp *.gif _site/ 2>/dev/null || echo "No GIF files found"
+          cp *.svg _site/ 2>/dev/null || echo "No SVG files found"
+          cp *.ico _site/ 2>/dev/null || echo "No ICO files found"
+          
+          # Jika ada folder assets atau images, copy juga
+          if [ -d "assets" ]; then
+            cp -r assets _site/
+          fi
+          
+          if [ -d "images" ]; then
+            cp -r images _site/
+          fi
+          
+          # Rename main.html ke index.html jika ada
+          if [ -f "_site/main.html" ]; then
+            mv _site/main.html _site/index.html
+          fi
+          
+          # Buat file 404.html sederhana jika belum ada
+          if [ ! -f "_site/404.html" ]; then
+            cat > _site/404.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="id">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>404 - Halaman Tidak Ditemukan</title>
+              <style>
+                  body {
+                      font-family: 'Inter', sans-serif;
+                      background: #0f0f23;
+                      color: #ffffff;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      height: 100vh;
+                      margin: 0;
+                      text-align: center;
+                  }
+                  .error-container {
+                      padding: 2rem;
+                  }
+                  h1 { font-size: 4rem; margin-bottom: 1rem; }
+                  p { font-size: 1.2rem; margin-bottom: 2rem; }
+                  a {
+                      background: #667eea;
+                      color: white;
+                      padding: 12px 24px;
+                      text-decoration: none;
+                      border-radius: 8px;
+                      transition: background 0.3s;
+                  }
+                  a:hover { background: #5a67d8; }
+              </style>
+          </head>
+          <body>
+              <div class="error-container">
+                  <h1>404</h1>
+                  <p>Halaman yang Anda cari tidak ditemukan</p>
+                  <a href="/">Kembali ke Beranda</a>
+              </div>
+          </body>
+          </html>
+          EOF
+          fi
+          
+          echo "Build completed successfully!"
+          echo "Files in _site directory:"
+          ls -la _site/
+          
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+  # Deploy job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        
+      - name: Display Deployment URL
+        run: |
+          echo "🚀 Website berhasil di-deploy!"
+          echo "📍 URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "✅ Hall of Fame Mahasiswa Kelompok 4 sudah online!"
