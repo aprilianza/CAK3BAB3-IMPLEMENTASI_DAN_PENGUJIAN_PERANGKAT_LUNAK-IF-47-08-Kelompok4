@@ -46,3 +46,34 @@
 - Pisahkan CSS/JS ke file terdedikasi (`styles.css`, `app.js`).
 - Tambahkan fallback avatar (gambar default jika URL error).
 - Minifikasi CSS/JS saat deployment.
+
+
+# Output Akhir Simulasi GitHub  
+**CAK3BAB3 – IMPLEMENTASI DAN PENGUJIAN PERANGKAT LUNAK – IF-47-08 – KelompokX**
+
+---
+
+## 1. Link Issue (Customer)
+- [#3 Tambahkan nama kelompok 3 di halaman utama](../../issues/3)  
+- [#5 Tambahkan tombol About Us](../../issues/5)  
+
+---
+
+## 2. Link Pull Request (Programmer)
+- [PR #7 – Menambahkan nama kelompok 3 di index.html](../../pull/7)  
+- [PR #8 – Menambahkan tombol About Us](../../pull/8)  
+
+---
+
+## 3. Screenshot Merge (Configuration Manager)
+**PR #7 – Merge Menambahkan nama kelompok 3**  
+![Screenshot Merge PR #7](docs/screenshots/merge-pr7.png)  
+
+**PR #8 – Merge Menambahkan tombol About Us**  
+![Screenshot Merge PR #8](docs/screenshots/merge-pr8.png)  
+
+---
+
+## 4. Laporan Audit (Auditor)
+**Audit Report – Kelompok X**  
+📄 [Lihat Audit Report](docs/AuditReport.md)
