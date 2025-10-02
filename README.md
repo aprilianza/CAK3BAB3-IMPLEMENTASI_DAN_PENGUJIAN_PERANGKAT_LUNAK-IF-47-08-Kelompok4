@@ -66,7 +66,7 @@
 ---
 
 ## 3. Screenshot Merge (Configuration Manager)
-**PR #7 – Merge Menambahkan nama kelompok 3**  
+**PR #7 – Merge Menambahkan nama kelompok 4**  
 <img width="1197" height="846" alt="image" src="https://github.com/user-attachments/assets/ec3e6d45-3b95-48fd-abc5-1bf975b8e447" />
 
 
